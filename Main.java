@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 
 public class Main extends Application {
@@ -40,15 +41,29 @@ public class Main extends Application {
         toggles.getItems().addAll(rotate, serve, seam, players);
 
         Pane court = new Pane();
-        court.setPrefSize(450, 250);
+        court.setPrefSize(400,400);
+        court.setStyle("-fx-border-color: PINK; -fx-border-width: 10; -fx-border-style: solid;");
+
+        Rectangle attackLine = new Rectangle(450,10, Color.PINK);
 
         Circle p1 = new Circle(15, Color.BLUE);
-        p1.relocate(100, 50);
-        court.getChildren().add(p1);
+        Circle p2 = new Circle (15, Color.PURPLE);
+        Circle p3 = new Circle(15, Color.RED);
+        Circle p4 = new Circle(15, Color.BLUE);
+        Circle p5 = new Circle(15, Color.PURPLE);
+        Circle p6 = new Circle(15, Color.RED);
+        p1.relocate(385, 185);
+        p2.relocate(385, 50);
+        p3.relocate(210,50);
+        p4.relocate(50,50);
+        p5.relocate(50,185);
+        p6.relocate(210,185);
+        attackLine.relocate(0,150);
+        court.getChildren().addAll(p1,p2,p3,p4,p5,p6,attackLine);
 
         BorderPane screan = new BorderPane();
         screan.setTop(toggles);
-        screan.setBottom(court);  
+        screan.setBottom(court);
 
         Scene sc = new Scene(screan, 450, 600);
         stage.setScene(sc);
