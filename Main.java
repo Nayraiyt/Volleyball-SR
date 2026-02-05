@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 
@@ -38,12 +39,21 @@ public class Main extends Application {
         ToolBar toggles = new ToolBar();
         toggles.getItems().addAll(rotate, serve, seam, players);
 
-        BorderPane root = new BorderPane();
-        root.setTop(toggles);
+        Pane court = new Pane();
+        court.setPrefSize(450, 250);
 
-        Scene sc = new Scene(root,450,600);
+        Circle p1 = new Circle(15, Color.BLUE);
+        p1.relocate(100, 50);
+        court.getChildren().add(p1);
+
+        BorderPane screan = new BorderPane();
+        screan.setTop(toggles);
+        screan.setBottom(court);  
+
+        Scene sc = new Scene(screan, 450, 600);
         stage.setScene(sc);
         stage.show();
+
     }
 
     public static void main(String[] args) {
