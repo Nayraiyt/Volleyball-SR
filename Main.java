@@ -12,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Serve Recieve");
+        stage.setTitle("Volleyball SR");
 
         Menu Seams = new Menu("Seams");
         MenuItem l = new MenuItem("Left");
@@ -47,19 +47,36 @@ public class Main extends Application {
         Rectangle attackLine = new Rectangle(450,10, Color.PINK);
 
         Circle p1 = new Circle(15, Color.BLUE);
-        Circle p2 = new Circle (15, Color.PURPLE);
+        Circle p2 = new Circle (15, Color.RED);
         Circle p3 = new Circle(15, Color.RED);
-        Circle p4 = new Circle(15, Color.BLUE);
-        Circle p5 = new Circle(15, Color.PURPLE);
+        Circle p4 = new Circle(15, Color.RED);
+        Circle p5 = new Circle(15, Color.RED);
         Circle p6 = new Circle(15, Color.RED);
-        p1.relocate(385, 185);
+        //starting player locations
+        attackLine.relocate(0,150);
+        int starting[][] = {{385,285},{385,50},{210,50},{50,50},{50,285},{210,285}};
+        int five_one_one[][] = {{400,100},{385,50},{75,100},{50,275},{210,300},{385,275}};
+        int five_one_two[][] = {{400,50},{45,125},{30,100},{50,275},{210,300},{385,275}};
+        int five_one_three[][] = {{370,50},{25,150},{50,275},{210,300},{385,275},{410,100}};
+        Circle positions[] = {p1,p2,p3,p4,p5,p6};
+
+        for(int i = 0; i<6; i++){
+            int j = 0;
+            positions[i].setLayoutX(five_one_three[i][j]);
+            positions[i].setLayoutY(five_one_three[i][j+1]);
+        }
+
+        /*
+        p1.setLayoutX(385);
+        p1.setLayoutY(285);
         p2.relocate(385, 50);
         p3.relocate(210,50);
         p4.relocate(50,50);
-        p5.relocate(50,185);
-        p6.relocate(210,185);
-        attackLine.relocate(0,150);
-        court.getChildren().addAll(p1,p2,p3,p4,p5,p6,attackLine);
+        p5.relocate(50,285);
+        p6.relocate(210,285);
+        */
+
+        court.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
 
         BorderPane screan = new BorderPane();
         screan.setTop(toggles);
