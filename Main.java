@@ -1,6 +1,3 @@
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -74,12 +71,12 @@ public class Main extends Application {
         int five_one_six [][] = {{210,50},{385,300},{400,175},{300,30},{65,250},{220,310}};
         int five_one[][][] = {five_one_one,five_one_six,five_one_five,
                              five_one_four,five_one_three,five_one_two};
-                             
-        int setterPos = -1;
-        AtomicInteger rotationNum = new AtomicInteger(setterPos);
 
-        rotate.setOnAction(event -> {
-            rotationNum.set((rotationNum.get() + 1) % 6);
+        int setterPos = -1;
+        trackRotation rotationNum = new trackRotation(setterPos);
+
+        rotate.setOnAction(event -> { 
+            rotationNum.rotate();
             for(int i = 0; i<6; i++){
             int j = 0;
             positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
