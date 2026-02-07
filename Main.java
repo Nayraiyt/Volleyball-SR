@@ -1,4 +1,6 @@
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -35,7 +37,9 @@ public class Main extends Application {
         serve.getMenus().add(Serve);
 
         Button players = new Button("Players");
+
         Button rotate = new Button("Rotate");
+
 
         ToolBar toggles = new ToolBar();
         toggles.getItems().addAll(rotate, serve, seam, players);
@@ -62,13 +66,21 @@ public class Main extends Application {
         int five_one_four [][] = {{15,20},{50,275},{210,300},{385,275},{45,125},{20,50}};
         int five_one_five [][] = {{160,60},{210,300},{385,275},{415,135},{50,275},{20,40}};
         int five_one_six [][] = {{210,50},{385,275},{400,100},{300,30},{50,275},{220,300}};
+        int five_one[][][] = {five_one_one,five_one_two,five_one_three,
+                             five_one_four,five_one_five,five_one_six};
         Circle positions[] = {p1,p2,p3,p4,p5,p6};
 
-        for(int i = 0; i<6; i++){
+        AtomicInteger rotationNum = new AtomicInteger(0);
+
+
+        rotate.setOnAction(event -> {
+            rotationNum.set((rotationNum.get() + 1) % 6);
+            for(int i = 0; i<6; i++){
             int j = 0;
-            positions[i].setLayoutX(five_one_six[i][j]);
-            positions[i].setLayoutY(five_one_six[i][j+1]);
+            positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
+            positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
         }
+        });
 
         court.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
 
