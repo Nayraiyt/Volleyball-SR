@@ -7,10 +7,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Statistics",
             "request": "launch",
-            "mainClass": "Main",
-            "name": "Launch Java App",
-            
+            "mainClass": "Statistics",
+            "projectName": "Volleyball-SR_abf4218d"
+        },
+        {
             "type": "java",
             "request": "launch",
             "mainClass": "Main",

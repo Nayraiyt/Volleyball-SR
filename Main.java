@@ -11,39 +11,41 @@ import javafx.scene.shape.Rectangle;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
+
         stage.setTitle("Volleyball SR");
 
-        Menu Seams = new Menu("Seams");
-        MenuItem l = new MenuItem("Left");
-        MenuItem r = new MenuItem("Right");
-        MenuItem js = new MenuItem("Justify Server");
-        MenuItem jl = new MenuItem("Justify Libero");
-        Seams.getItems().add(l);
-        Seams.getItems().add(r);
-        Seams.getItems().add(js);
-        Seams.getItems().add(jl);
-        MenuBar seam = new MenuBar();
-        seam.getMenus().add(Seams);
+        /*:::Court View Page::: */
+        Menu seams_menu_1 = new Menu("Seams");
+        MenuItem left_1 = new MenuItem("Left");
+        MenuItem right_1 = new MenuItem("Right");
+        MenuItem jserver_1 = new MenuItem("Justify Server");
+        MenuItem jlibero_1 = new MenuItem("Justify Libero");
+        seams_menu_1.getItems().add(left_1);
+        seams_menu_1.getItems().add(right_1);
+        seams_menu_1.getItems().add(jserver_1);
+        seams_menu_1.getItems().add(jlibero_1);
+        MenuBar seams_bar_1 = new MenuBar();
+        seams_bar_1.getMenus().add(seams_menu_1);
 
-        Menu Serve = new Menu("Serve");
-        MenuItem uh = new MenuItem("Underhand");
-        MenuItem f = new MenuItem("Float");
-        MenuItem s = new MenuItem("Spin");
-        Serve.getItems().addAll(uh,f,s);
-        MenuBar serve = new MenuBar();
-        serve.getMenus().add(Serve);
+        Menu serve_menu_1 = new Menu("Serve");
+        MenuItem underhand_1 = new MenuItem("Underhand");
+        MenuItem float_1 = new MenuItem("Float");
+        MenuItem spin_1 = new MenuItem("Spin");
+        serve_menu_1.getItems().addAll(underhand_1,float_1,spin_1);
+        MenuBar serve_bar_1 = new MenuBar();
+        serve_bar_1.getMenus().add(serve_menu_1);
 
-        Button players = new Button("Players");
+        Button players_bar_1 = new Button("Players");
 
-        Button rotate = new Button("Rotate");
+        Button rotate_bar_1 = new Button("Rotate");
 
 
-        ToolBar toggles = new ToolBar();
-        toggles.getItems().addAll(rotate, serve, seam, players);
+        ToolBar tool_bar_1 = new ToolBar();
+        tool_bar_1.getItems().addAll(rotate_bar_1, serve_bar_1, seams_bar_1, players_bar_1);
 
-        Pane court = new Pane();
-        court.setPrefSize(400,400);
-        court.setStyle("-fx-border-color: PINK; -fx-border-width: 10; -fx-border-style: solid;");
+        Pane court_1 = new Pane();
+        court_1.setPrefSize(400,400);
+        court_1.setStyle("-fx-border-color: PINK; -fx-border-width: 10; -fx-border-style: solid;");
 
         Rectangle attackLine = new Rectangle(450,10, Color.PINK);
 
@@ -75,7 +77,34 @@ public class Main extends Application {
         int setterPos = -1;
         trackRotation rotationNum = new trackRotation(setterPos);
 
-        rotate.setOnAction(event -> { 
+        court_1.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
+
+        BorderPane screan_1 = new BorderPane();
+        screan_1.setTop(tool_bar_1);
+        screan_1.setBottom(court_1);
+
+        /*::::Player Statistics View:::: */
+        Button court_bar_2 = new Button("court");
+        Button addplayers_bar_2 = new Button("add player");
+        Button remove_bar_2 = new Button("Remove All");
+
+        ToolBar tool_bar_2 = new ToolBar();
+        tool_bar_2.getItems().addAll(court_bar_2, addplayers_bar_2, remove_bar_2);
+
+        BorderPane screan_2 = new BorderPane();
+        screan_2.setTop(tool_bar_2);
+        
+
+        Scene court_view_1 = new Scene(screan_1, 450, 600);
+        Scene player_stats_2 = new Scene(screan_2,450,600);
+
+        /* :::Buttons::: */
+
+        players_bar_1.setOnAction(event -> {
+            stage.setScene(player_stats_2);
+        });
+
+        rotate_bar_1.setOnAction(event -> { 
             rotationNum.rotate();
             for(int i = 0; i<6; i++){
             int j = 0;
@@ -84,14 +113,11 @@ public class Main extends Application {
         }
         });
 
-        court.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
+        court_bar_2.setOnAction(event -> {
+            stage.setScene(court_view_1);
+        });
 
-        BorderPane screan = new BorderPane();
-        screan.setTop(toggles);
-        screan.setBottom(court);
-
-        Scene sc = new Scene(screan, 450, 600);
-        stage.setScene(sc);
+        stage.setScene(court_view_1);
         stage.show();
     }
 
