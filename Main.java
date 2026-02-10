@@ -4,10 +4,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
+
+
 
 
 
@@ -49,13 +52,13 @@ public class Main extends Application {
         tool_bar_1.getItems().addAll(rotate_bar_1, serve_bar_1, seams_bar_1, players_bar_1);
 
         Pane court_1 = new Pane();
-        court_1.setPrefSize(400,400);
+        court_1.setPrefSize(450,400);
         court_1.setStyle("-fx-border-color: #ADD8E6; -fx-border-width: 10; -fx-border-style: solid;");
 
         Rectangle attackLine = new Rectangle(450,10, pastelBlue);
 
-        int player_icon_size = 125;
-
+        /* Cutesy Icons for the player positions */
+        int player_icon_size = 43;
         Image setter_icon = new Image(getClass().getResource("/images/setter_icon.PNG").toExternalForm());
         ImageView p1 = new ImageView(setter_icon);
         p1.setFitWidth(player_icon_size);
@@ -103,11 +106,66 @@ public class Main extends Application {
                              five_one_four,five_one_three,five_one_two};
         int setterPos = -1;
         trackRotation rotationNum = new trackRotation(setterPos);
+        
+        /* Serve Movement */
+        Image under_serve_icon = new Image(getClass().getResource("/images/under_serve_icon.PNG").toExternalForm());
+        ImageView underhand_server = new ImageView(under_serve_icon);
+        underhand_server.setFitWidth(90);
+        underhand_server.setPreserveRatio(true);
+        underhand_server.setLayoutX(0);
 
+        Pane serve_space_1 = new Pane();
+        serve_space_1.setPrefSize(450,180);
+
+        Rectangle serve_zone1_1 = new Rectangle(90,180,Color.WHITE);
+        serve_zone1_1.setLayoutX(0);
+        Rectangle serve_zone2_1 = new Rectangle(90,180,Color.WHITE);
+        serve_zone2_1.setLayoutX(90);
+        Rectangle serve_zone3_1 = new Rectangle(90,180,Color.WHITE);
+        serve_zone3_1.setLayoutX(180);
+        Rectangle serve_zone4_1 = new Rectangle(90,180,Color.WHITE);
+        serve_zone4_1.setLayoutX(270);
+        Rectangle serve_zone5_1 = new Rectangle(90,180,Color.WHITE);
+        serve_zone5_1.setLayoutX(360);
+
+        serve_zone1_1.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                underhand_server.setLayoutX(0);
+            } 
+        });
+        serve_zone2_1.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                underhand_server.setLayoutX(90);
+            } 
+        });
+        serve_zone3_1.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                underhand_server.setLayoutX(180);
+            } 
+        });
+        serve_zone4_1.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                underhand_server.setLayoutX(270);
+            } 
+        });
+        serve_zone5_1.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                underhand_server.setLayoutX(360);
+            } 
+        });
+
+
+
+
+        serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,underhand_server);
         court_1.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
 
         BorderPane screan_1 = new BorderPane();
-        screan_1.setTop(tool_bar_1);
+        VBox topContainer = new VBox();
+        topContainer.getChildren().addAll(tool_bar_1,serve_space_1);
+
+
+        screan_1.setTop(topContainer);
         screan_1.setBottom(court_1);
 
         /*::::Player Statistics View:::: */
