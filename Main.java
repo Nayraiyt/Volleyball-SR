@@ -8,9 +8,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
-
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 
@@ -35,25 +33,17 @@ public class Main extends Application {
         MenuBar seams_bar_1 = new MenuBar();
         seams_bar_1.getMenus().add(seams_menu_1);
 
-        Menu serve_menu_1 = new Menu("Serve");
-        MenuItem underhand_1 = new MenuItem("Underhand");
-        MenuItem float_1 = new MenuItem("Float");
-        MenuItem spin_1 = new MenuItem("Spin");
-        serve_menu_1.getItems().addAll(underhand_1,float_1,spin_1);
-        MenuBar serve_bar_1 = new MenuBar();
-        serve_bar_1.getMenus().add(serve_menu_1);
-
         Button players_bar_1 = new Button("Players");
 
         Button rotate_bar_1 = new Button("Rotate");
 
 
         ToolBar tool_bar_1 = new ToolBar();
-        tool_bar_1.getItems().addAll(rotate_bar_1, serve_bar_1, seams_bar_1, players_bar_1);
+        tool_bar_1.getItems().addAll(rotate_bar_1, seams_bar_1, players_bar_1);
 
         Pane court_1 = new Pane();
         court_1.setPrefSize(450,400);
-        court_1.setStyle("-fx-border-color: #ADD8E6; -fx-border-width: 10; -fx-border-style: solid;");
+        court_1.setStyle("-fx-border-color: #ADD8E6; -fx-color: white; -fx-border-width: 10; -fx-border-style: solid;");
 
         Rectangle attackLine = new Rectangle(450,10, pastelBlue);
 
@@ -109,10 +99,13 @@ public class Main extends Application {
         
         /* Serve Movement */
         Image under_serve_icon = new Image(getClass().getResource("/images/under_serve_icon.PNG").toExternalForm());
-        ImageView underhand_server = new ImageView(under_serve_icon);
-        underhand_server.setFitWidth(90);
-        underhand_server.setPreserveRatio(true);
-        underhand_server.setLayoutX(0);
+        ImageView server_icon = new ImageView(under_serve_icon);
+        Image over_serve_icon = new Image(getClass().getResource("/images/over_serve_icon.PNG").toExternalForm());
+        server_icon.setFitWidth(90);
+        server_icon.setPreserveRatio(true);
+        server_icon.setLayoutX(0);
+
+        AtomicInteger num_server_toggles = new AtomicInteger(0);
 
         Pane serve_space_1 = new Pane();
         serve_space_1.setPrefSize(450,180);
@@ -128,36 +121,56 @@ public class Main extends Application {
         Rectangle serve_zone5_1 = new Rectangle(90,180,Color.WHITE);
         serve_zone5_1.setLayoutX(360);
 
+        server_icon.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                num_server_toggles.incrementAndGet();
+
+                if(num_server_toggles.get() > 1){
+                    num_server_toggles.set(0);
+                    server_icon.setImage(under_serve_icon);
+                }
+                else{
+                    server_icon.setImage(over_serve_icon);
+                }
+            } 
+        });
+
         serve_zone1_1.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                underhand_server.setLayoutX(0);
+                server_icon.setLayoutX(0);
+            } 
+        });
+
+        serve_zone1_1.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                server_icon.setLayoutX(0);
             } 
         });
         serve_zone2_1.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                underhand_server.setLayoutX(90);
+                server_icon.setLayoutX(90);
             } 
         });
         serve_zone3_1.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                underhand_server.setLayoutX(180);
+                server_icon.setLayoutX(180);
             } 
         });
         serve_zone4_1.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                underhand_server.setLayoutX(270);
+                server_icon.setLayoutX(270);
             } 
         });
         serve_zone5_1.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                underhand_server.setLayoutX(360);
+                server_icon.setLayoutX(360);
             } 
         });
 
 
 
 
-        serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,underhand_server);
+        serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,server_icon);
         court_1.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
 
         BorderPane screan_1 = new BorderPane();
@@ -180,8 +193,8 @@ public class Main extends Application {
         screan_2.setTop(tool_bar_2);
         
 
-        Scene court_view_1 = new Scene(screan_1, 450, 600);
-        Scene player_stats_2 = new Scene(screan_2,450,600);
+        Scene court_view_1 = new Scene(screan_1, 450, 620, Color.WHITE);
+        Scene player_stats_2 = new Scene(screan_2,450,620, Color.WHITE);
 
         /* :::Buttons::: */
 
