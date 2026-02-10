@@ -6,6 +6,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 
 public class Main extends Application {
@@ -15,6 +18,8 @@ public class Main extends Application {
         stage.setTitle("Volleyball SR");
 
         /*:::Court View Page::: */
+        Color pastelBlue = Color.web("#ADD8E6");
+
         Menu seams_menu_1 = new Menu("Seams");
         MenuItem left_1 = new MenuItem("Left");
         MenuItem right_1 = new MenuItem("Right");
@@ -45,19 +50,42 @@ public class Main extends Application {
 
         Pane court_1 = new Pane();
         court_1.setPrefSize(400,400);
-        court_1.setStyle("-fx-border-color: PINK; -fx-border-width: 10; -fx-border-style: solid;");
+        court_1.setStyle("-fx-border-color: #ADD8E6; -fx-border-width: 10; -fx-border-style: solid;");
 
-        Rectangle attackLine = new Rectangle(450,10, Color.PINK);
+        Rectangle attackLine = new Rectangle(450,10, pastelBlue);
 
-        Circle p1 = new Circle(15,Color.BLUE);
-        Circle p2 = new Circle(15,Color.RED);
-        Circle p3 = new Circle(15,Color.RED);
-        Circle p4 = new Circle(15,Color.RED);
-        Circle p5 = new Circle(15,Color.RED);
-        Circle p6 = new Circle(15,Color.RED);
+        int player_icon_size = 125;
+
+        Image setter_icon = new Image(getClass().getResource("/images/setter_icon.PNG").toExternalForm());
+        ImageView p1 = new ImageView(setter_icon);
+        p1.setFitWidth(player_icon_size);
+        p1.setPreserveRatio(true);
+
+        Image power_icon = new Image(getClass().getResource("/images/power_icon.PNG").toExternalForm());
+        ImageView p2 = new ImageView(power_icon);
+        p2.setFitWidth(player_icon_size);
+        p2.setPreserveRatio(true);
+
+        Image middle_icon = new Image(getClass().getResource("/images/middle_icon.PNG").toExternalForm());
+        ImageView p3 = new ImageView(middle_icon);
+        p3.setFitWidth(player_icon_size);
+        p3.setPreserveRatio(true);
+
+        Image opposite_icon = new Image(getClass().getResource("/images/opposite_icon.PNG").toExternalForm());
+        ImageView p4 = new ImageView(opposite_icon);
+        p4.setFitWidth(player_icon_size);
+        p4.setPreserveRatio(true);
+
+        ImageView p5 = new ImageView(power_icon);
+        p5.setFitWidth(player_icon_size);
+        p5.setPreserveRatio(true);
+
+        ImageView p6 = new ImageView(middle_icon);
+        p6.setFitWidth(player_icon_size);
+        p6.setPreserveRatio(true);
 
         int starting [][] = {{385,285},{385,50},{210,50},{50,50},{50,285},{210,285}};
-        Circle positions[] = {p1,p2,p3,p4,p5,p6};
+        ImageView positions[] = {p1,p2,p3,p4,p5,p6};
         for(int i = 0; i<6; i++){
             int j = 0;
             positions[i].setLayoutX(starting[i][j]);
@@ -73,7 +101,6 @@ public class Main extends Application {
         int five_one_six [][] = {{210,50},{385,300},{400,175},{300,30},{65,250},{220,310}};
         int five_one[][][] = {five_one_one,five_one_six,five_one_five,
                              five_one_four,five_one_three,five_one_two};
-
         int setterPos = -1;
         trackRotation rotationNum = new trackRotation(setterPos);
 
