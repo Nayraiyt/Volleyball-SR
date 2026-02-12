@@ -281,7 +281,7 @@ public class Main extends Application {
 
 
         BorderPane screan_3 = new BorderPane();
-        Scene add_player_3 = new Scene(screan_3, 450, 400, Color.WHITE);
+        Scene add_player_3 = new Scene(screan_3, 450, 300, Color.WHITE);
         screan_3.setTop(tool_bar_3);
         screan_3.setBottom(inputs);
 
