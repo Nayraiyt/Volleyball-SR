@@ -179,14 +179,21 @@ public class Main extends Application {
         screan_1.setBottom(court_1);
 
         /*::::Player Statistics View:::: */
+
+        ArrayList<Player> players = new ArrayList<Player>();
+
+
         Button court_bar_2 = new Button("court");
         Button addplayers_bar_2 = new Button("add player");
         Button remove_bar_2 = new Button("Remove All");
 
         ToolBar tool_bar_2 = new ToolBar();
         tool_bar_2.getItems().addAll(court_bar_2, addplayers_bar_2, remove_bar_2);
+        
+        Label player_info = new Label("Add Players to See Their Information");
 
         Pane player_cards_2 = new Pane();
+        player_cards_2.getChildren().addAll(player_info);
         player_cards_2.setPrefSize(450,550);
 
         BorderPane screan_2 = new BorderPane();
@@ -215,8 +222,6 @@ public class Main extends Application {
         Label get_platform_pass = new Label("Platform Passing stat (0-3): ");
         Label output_platform_pass = new Label("");
         TextField input_platform_pass = new TextField();
-
-        ArrayList<Player> players = new ArrayList<Player>();
 
         save_player_bar_3.setOnAction(event ->{
             Player p = new Player();
@@ -270,8 +275,13 @@ public class Main extends Application {
             }
             else{
                 players.add(p);
-                p.clear();
+                updatePlayerInfo(player_info, players);
                 stage.setScene(player_stats_2);
+                p.clear();
+                input_name.clear();
+                input_position.clear();
+                input_hand_pass.clear();
+                input_platform_pass.clear();
             }
         });
         
@@ -317,5 +327,13 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private void updatePlayerInfo(Label player_info, ArrayList<Player> players) {
+    StringBuilder player_s = new StringBuilder();
+        for (Player player : players) {
+            player_s.append(player.toString()).append("\n");
+        }
+        player_info.setText(player_s.toString());
     }
 }

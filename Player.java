@@ -50,4 +50,15 @@ public class Player {
         this.hand_pass = -1;
         this.platform_pass = -1;
     }
+
+    @Override
+    public String toString() {
+        return "Player {" +
+                "Name='" + (name != null ? name : "N/A") + '\'' +
+                ", Position='" + (position != null ? position : "N/A") + '\'' +
+                ", Hand Pass=" + (hand_pass >= 0 ? hand_pass : "Not set") +
+                ", Platform Pass=" + (platform_pass >= 0 ? platform_pass : "Not set") +
+                '}';
+    }
+
 }
