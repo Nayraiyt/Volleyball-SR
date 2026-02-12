@@ -18,9 +18,17 @@ public class Main extends Application {
 
         stage.setTitle("Volleyball SR");
 
+        ArrayList<Integer> players_start_pos = new ArrayList<>();
+        ArrayList<String> player_names = new ArrayList<>();
+        ArrayList<String> player_position = new ArrayList<>();
+        ArrayList<Double> player_hand_stat = new ArrayList<>();
+        ArrayList<Double> player_platform_stat = new ArrayList<>();
+
         /*:::Court View Page::: */
         Color pastelBlue = Color.web("#ADD8E6");
 
+
+        /* 
         Menu seams_menu_1 = new Menu("Seams");
         MenuItem left_1 = new MenuItem("Left");
         MenuItem right_1 = new MenuItem("Right");
@@ -33,13 +41,15 @@ public class Main extends Application {
         MenuBar seams_bar_1 = new MenuBar();
         seams_bar_1.getMenus().add(seams_menu_1);
 
+        */
+
         Button players_bar_1 = new Button("Players");
 
         Button rotate_bar_1 = new Button("Rotate");
 
 
         ToolBar tool_bar_1 = new ToolBar();
-        tool_bar_1.getItems().addAll(rotate_bar_1, seams_bar_1, players_bar_1);
+        tool_bar_1.getItems().addAll(rotate_bar_1, players_bar_1);
 
         Pane court_1 = new Pane();
         court_1.setPrefSize(450,400);
@@ -140,12 +150,6 @@ public class Main extends Application {
                 server_icon.setLayoutX(0);
             } 
         });
-
-        serve_zone1_1.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                server_icon.setLayoutX(0);
-            } 
-        });
         serve_zone2_1.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 server_icon.setLayoutX(90);
@@ -179,9 +183,7 @@ public class Main extends Application {
         screan_1.setBottom(court_1);
 
         /*::::Player Statistics View:::: */
-
         ArrayList<Player> players = new ArrayList<Player>();
-
 
         Button court_bar_2 = new Button("court");
         Button addplayers_bar_2 = new Button("add player");
@@ -216,14 +218,18 @@ public class Main extends Application {
         Label get_name = new Label("Player Name (3 letters or less):");
         Label output_name = new Label("");
         TextField input_name = new TextField();
-        Label get_hand_pass = new Label("Hand Passing Stat (0-3):");
+        Label get_hand_pass = new Label("Hand Passing Stat (0.0-3.0):");
         Label output_hand_pass = new Label("");
         TextField input_hand_pass = new TextField();
-        Label get_platform_pass = new Label("Platform Passing stat (0-3): ");
+        Label get_platform_pass = new Label("Platform Passing stat (0.0-3.0): ");
         Label output_platform_pass = new Label("");
         TextField input_platform_pass = new TextField();
+        Label get_start_pos = new Label("Start Position (1-6, 0 if N/A): ");
+        Label output_start_pos = new Label("");
+        TextField input_start_pos = new TextField();
 
         save_player_bar_3.setOnAction(event ->{
+
             Player p = new Player();
 
             String position = input_position.getText().trim();
@@ -263,35 +269,63 @@ public class Main extends Application {
                     output_platform_pass.setText("⚠ Required Field, Only values 0-3");
                 }
                 else{
-                    output_platform_pass.setText("");  
-                    p.setPlatform_pass(Double.parseDouble(platform_pass));
+                    output_platform_pass.setText("");
+                    p.setPlatform_pass(Double.parseDouble(platform_pass));  
                 }
             } catch (NumberFormatException e) {
                 output_platform_pass.setText("⚠ Numerical Values only");
             }
 
-            if(p.getName().isEmpty() || p.getPosition().isEmpty() || p.getPlatformPass() == -1 || p.getHandPass() == -1){
+            String start_pos = input_start_pos.getText().trim();
+
+            boolean occupied = false;
+
+            for(int i = 0; i< players_start_pos.size(); i++){
+                if(players_start_pos.get(i) == Integer.parseInt(start_pos)){
+                    occupied = true;
+                }
+            }
+
+            boolean start_pos_verrified = false;
+            if(start_pos.isEmpty() || Integer.parseInt(start_pos) > 6 || Integer.parseInt(start_pos) < 0){
+                output_start_pos.setText("⚠ Required Field, only (1-6, 0 if N/A)");
+            }
+            else if(occupied){
+                output_start_pos.setText("⚠ only one player can occupy at once");
+            }
+            else{
+                start_pos_verrified = true;
+            }
+
+            if(p.getName().isEmpty() || p.getPosition().isEmpty() || p.getPlatformPass() == -1 || p.getHandPass() == -1 || start_pos_verrified == false){
 
             }
             else{
-                players.add(p);
-                updatePlayerInfo(player_info, players);
+                player_names.add(name);
+                player_position.add(position);
+                player_platform_stat.add(Double.parseDouble(platform_pass));
+                player_hand_stat.add(Double.parseDouble(hand_pass));
+                players_start_pos.add(Integer.parseInt(start_pos));
+
+                updatePlayerInfo(player_info, player_names,player_position,player_platform_stat,player_hand_stat);
                 stage.setScene(player_stats_2);
                 p.clear();
                 input_name.clear();
                 input_position.clear();
                 input_hand_pass.clear();
                 input_platform_pass.clear();
+                input_start_pos.clear();
             }
         });
         
         VBox inputs = new VBox();
         inputs.getChildren().addAll(get_name,output_name,input_name,get_position, output_position,input_position,
-            get_hand_pass,output_hand_pass,input_hand_pass,get_platform_pass,output_platform_pass,input_platform_pass);
+            get_hand_pass,output_hand_pass,input_hand_pass,get_platform_pass,output_platform_pass,input_platform_pass,
+            get_start_pos, output_start_pos, input_start_pos);
 
 
         BorderPane screan_3 = new BorderPane();
-        Scene add_player_3 = new Scene(screan_3, 450, 300, Color.WHITE);
+        Scene add_player_3 = new Scene(screan_3, 450, 400, Color.WHITE);
         screan_3.setTop(tool_bar_3);
         screan_3.setBottom(inputs);
 
@@ -320,20 +354,37 @@ public class Main extends Application {
             stage.setScene(player_stats_2);
         });
 
+        remove_bar_2.setOnAction(event ->{
+            players.clear();
+            updatePlayerInfo(player_info, player_names,player_position,player_platform_stat,player_hand_stat);
+        });
+
 
         stage.setScene(court_view_1);
         stage.show();
     }
-
     public static void main(String[] args) {
         launch(args);
     }
 
-    private void updatePlayerInfo(Label player_info, ArrayList<Player> players) {
-    StringBuilder player_s = new StringBuilder();
-        for (Player player : players) {
-            player_s.append(player.toString()).append("\n");
+    private void updatePlayerInfo(Label player_info, ArrayList<String> names,ArrayList<String> positions, ArrayList<Double> hands, ArrayList<Double> platform){
+        StringBuilder player_s = new StringBuilder();
+        
+        for(int i = 0; i< names.size(); i++){
+            player_s.append("Player: ");
+            player_s.append(names.get(i));
+            player_s.append(" Position: ");
+            player_s.append(positions.get(i));
+            player_s.append(" Hand Pass: ");
+            player_s.append(hands.get(i));
+            player_s.append(" Platform Pass: ");
+            player_s.append(platform.get(i));
+            player_s.append("\n");
         }
         player_info.setText(player_s.toString());
+
+        if(names.size() < 1){
+            player_info.setText("Add a player to see their information");
+        }
     }
 }
