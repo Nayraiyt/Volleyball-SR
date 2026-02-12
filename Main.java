@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import java.util.ArrayList;
 
 
 public class Main extends Application {
@@ -43,7 +43,7 @@ public class Main extends Application {
 
         Pane court_1 = new Pane();
         court_1.setPrefSize(450,400);
-        court_1.setStyle("-fx-border-color: #ADD8E6; -fx-color: white; -fx-border-width: 10; -fx-border-style: solid;");
+        court_1.setStyle("-fx-border-color: #ADD8E6; -fx-background-color:  white; -fx-border-width: 10; -fx-border-style: solid;");
 
         Rectangle attackLine = new Rectangle(450,10, pastelBlue);
 
@@ -86,12 +86,12 @@ public class Main extends Application {
         }
         attackLine.relocate(0,150);
         //five one rotations, justified to setter postion.
-        int five_one_one [][] = {{400,100},{385,50},{75,100},{50,275},{210,300},{385,275}};
-        int five_one_two [][] = {{400,50},{45,125},{30,100},{50,275},{210,300},{385,275}};
-        int five_one_three [][] = {{370,50},{25,150},{50,275},{230,300},{385,275},{410,100}};
-        int five_one_four [][] = {{15,20},{50,275},{210,300},{385,235},{45,125},{20,50}};
-        int five_one_five [][] = {{160,60},{210,300},{385,275},{415,135},{50,250},{20,40}};
-        int five_one_six [][] = {{210,50},{385,300},{400,175},{300,30},{65,250},{220,310}};
+        int five_one_one [][] = {{400,100},{385,50},{75,100},{40,240},{210,275},{385,240}};
+        int five_one_two [][] = {{400,50},{40,120},{10,75},{50,245},{210,270},{385,245}};
+        int five_one_three [][] = {{370,50},{25,125},{60,250},{230,275},{385,250},{405,100}};
+        int five_one_four [][] = {{0,0},{50,260},{230,275},{385,215},{45,125},{25,60}};
+        int five_one_five [][] = {{130,60},{210,275},{385,250},{395,135},{50,250},{20,35}};
+        int five_one_six [][] = {{210,50},{385,300},{400,175},{300,30},{65,235},{220,275}};
         int five_one[][][] = {five_one_one,five_one_six,five_one_five,
                              five_one_four,five_one_three,five_one_two};
         int setterPos = -1;
@@ -167,9 +167,6 @@ public class Main extends Application {
             } 
         });
 
-
-
-
         serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,server_icon);
         court_1.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
 
@@ -189,19 +186,110 @@ public class Main extends Application {
         ToolBar tool_bar_2 = new ToolBar();
         tool_bar_2.getItems().addAll(court_bar_2, addplayers_bar_2, remove_bar_2);
 
+        Pane player_cards_2 = new Pane();
+        player_cards_2.setPrefSize(450,550);
+
         BorderPane screan_2 = new BorderPane();
         screan_2.setTop(tool_bar_2);
+        screan_2.setBottom(player_cards_2);
         
-
         Scene court_view_1 = new Scene(screan_1, 450, 620, Color.WHITE);
         Scene player_stats_2 = new Scene(screan_2,450,620, Color.WHITE);
+
+        /*::::Add Player Screan:::: */
+        Button save_player_bar_3 = new Button("Save Player");
+        Button exit_bar_3 = new Button("Exit");
+
+        ToolBar tool_bar_3 = new ToolBar();
+        tool_bar_3.getItems().addAll(save_player_bar_3, exit_bar_3);
+
+        Label get_position = new Label("Position (s,m,p,o):");
+        TextField input_position = new TextField();
+        Label output_position = new Label("");
+        Label get_name = new Label("Player Name (3 letters or less):");
+        Label output_name = new Label("");
+        TextField input_name = new TextField();
+        Label get_hand_pass = new Label("Hand Passing Stat (0-3):");
+        Label output_hand_pass = new Label("");
+        TextField input_hand_pass = new TextField();
+        Label get_platform_pass = new Label("Platform Passing stat (0-3): ");
+        Label output_platform_pass = new Label("");
+        TextField input_platform_pass = new TextField();
+
+        ArrayList<Player> players = new ArrayList<Player>();
+
+        save_player_bar_3.setOnAction(event ->{
+            Player p = new Player();
+
+            String position = input_position.getText().trim();
+            if(position.length()>1 || position.isEmpty()){
+                output_position.setText("⚠ Reqired Field, s: setter, m:middle, p:power, o:opposite)");
+            }
+            else{
+                output_position.setText("");
+                p.setPosition(position);
+            }
+
+            String name = input_name.getText().trim();
+            if(name.length()>3 || name.isEmpty()){
+                output_name.setText("⚠ Reqired Field, 3 Letters Max");
+            }
+            else{
+                output_name.setText("");
+                p.setName(name);
+            }
+
+            String hand_pass = input_hand_pass.getText().trim();
+            try {
+                if(hand_pass.isEmpty() || Double.parseDouble(hand_pass) > 3){
+                    output_hand_pass.setText("⚠ Required Field, Only values 0-3");
+                }
+                else{
+                    output_hand_pass.setText("");  
+                    p.setHand_pass(Double.parseDouble(hand_pass));
+                }
+            } catch (NumberFormatException e) {
+                output_hand_pass.setText("⚠ Numerical Values only");
+            }
+
+            String platform_pass = input_platform_pass.getText().trim();
+            try {
+                if(platform_pass.isEmpty() || Double.parseDouble(platform_pass) > 3){
+                    output_platform_pass.setText("⚠ Required Field, Only values 0-3");
+                }
+                else{
+                    output_platform_pass.setText("");  
+                    p.setPlatform_pass(Double.parseDouble(platform_pass));
+                }
+            } catch (NumberFormatException e) {
+                output_platform_pass.setText("⚠ Numerical Values only");
+            }
+
+            if(p.getName().isEmpty() || p.getPosition().isEmpty() || p.getPlatformPass() == -1 || p.getHandPass() == -1){
+
+            }
+            else{
+                players.add(p);
+                p.clear();
+                stage.setScene(player_stats_2);
+            }
+        });
+        
+        VBox inputs = new VBox();
+        inputs.getChildren().addAll(get_name,output_name,input_name,get_position, output_position,input_position,
+            get_hand_pass,output_hand_pass,input_hand_pass,get_platform_pass,output_platform_pass,input_platform_pass);
+
+
+        BorderPane screan_3 = new BorderPane();
+        Scene add_player_3 = new Scene(screan_3, 450, 400, Color.WHITE);
+        screan_3.setTop(tool_bar_3);
+        screan_3.setBottom(inputs);
 
         /* :::Buttons::: */
 
         players_bar_1.setOnAction(event -> {
             stage.setScene(player_stats_2);
         });
-
         rotate_bar_1.setOnAction(event -> { 
             rotationNum.rotate();
             for(int i = 0; i<6; i++){
@@ -214,6 +302,14 @@ public class Main extends Application {
         court_bar_2.setOnAction(event -> {
             stage.setScene(court_view_1);
         });
+        addplayers_bar_2.setOnAction(event -> {
+            stage.setScene(add_player_3);
+        });
+
+        exit_bar_3.setOnAction(event ->{
+            stage.setScene(player_stats_2);
+        });
+
 
         stage.setScene(court_view_1);
         stage.show();
