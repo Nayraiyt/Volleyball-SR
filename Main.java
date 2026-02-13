@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
+import javafx.scene.shape.Ellipse;
 
 
 public class Main extends Application {
@@ -58,41 +59,68 @@ public class Main extends Application {
         Rectangle attackLine = new Rectangle(450,10, pastelBlue);
 
         /* Cutesy Icons for the player positions */
+
+        Ellipse p1_range = new Ellipse(), p2_range = new Ellipse(),p3_range = new Ellipse(),p4_range = new Ellipse(),p5_range =new Ellipse(),p6_range = new Ellipse();
+        p1_range.setRadiusX(0);
+        p1_range.setRadiusY(0);
+
+        Ellipse ranges[] = {p1_range,p2_range,p3_range,p4_range,p5_range,p6_range};
+        for(int i =1; i<6; i++){
+            ranges[i].setRadiusX(50);
+            ranges[i].setRadiusY(50);
+            ranges[i].setOpacity(0.5);
+            ranges[i].setFill(Color.web("#5E819D"));
+        }
+
         int player_icon_size = 43;
         Image setter_icon = new Image(getClass().getResource("/images/setter_icon.PNG").toExternalForm());
         ImageView p1 = new ImageView(setter_icon);
         p1.setFitWidth(player_icon_size);
         p1.setPreserveRatio(true);
+        StackPane player1 = new StackPane();
+        player1.getChildren().addAll(p1_range, p1);
 
         Image power_icon = new Image(getClass().getResource("/images/power_icon.PNG").toExternalForm());
         ImageView p2 = new ImageView(power_icon);
         p2.setFitWidth(player_icon_size);
         p2.setPreserveRatio(true);
+        StackPane player2 = new StackPane();
+        player2.getChildren().addAll(p2_range, p2);
 
         Image middle_icon = new Image(getClass().getResource("/images/middle_icon.PNG").toExternalForm());
         ImageView p3 = new ImageView(middle_icon);
         p3.setFitWidth(player_icon_size);
         p3.setPreserveRatio(true);
+        StackPane player3 = new StackPane();
+        player3.getChildren().addAll(p3_range, p3);
 
         Image opposite_icon = new Image(getClass().getResource("/images/opposite_icon.PNG").toExternalForm());
         ImageView p4 = new ImageView(opposite_icon);
         p4.setFitWidth(player_icon_size);
         p4.setPreserveRatio(true);
+        StackPane player4 = new StackPane();
+        player4.getChildren().addAll(p4_range, p4);
 
         ImageView p5 = new ImageView(power_icon);
         p5.setFitWidth(player_icon_size);
         p5.setPreserveRatio(true);
+        StackPane player5 = new StackPane();
+        player5.getChildren().addAll(p5_range, p5);
 
         ImageView p6 = new ImageView(middle_icon);
         p6.setFitWidth(player_icon_size);
         p6.setPreserveRatio(true);
+        StackPane player6 = new StackPane();
+        player6.getChildren().addAll(p6_range, p6);
 
         int starting [][] = {{385,285},{385,50},{210,50},{50,50},{50,285},{210,285}};
-        ImageView positions[] = {p1,p2,p3,p4,p5,p6};
+        StackPane[]  positions = {player1,player2,player3,player4,player5,player6};
         for(int i = 0; i<6; i++){
             int j = 0;
             positions[i].setLayoutX(starting[i][j]);
+            ranges[i].setLayoutX(starting[i][j]);
             positions[i].setLayoutY(starting[i][j+1]);
+            ranges[i].setLayoutY(starting[i][j+1]);
         }
         attackLine.relocate(0,150);
         //five one rotations, justified to setter postion.
@@ -173,7 +201,7 @@ public class Main extends Application {
         });
 
         serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,server_icon);
-        court_1.getChildren().addAll(attackLine,p2,p3,p4,p5,p6,p1);
+        court_1.getChildren().addAll(attackLine,player2,player3,player4,player5,player6,player1);
 
         BorderPane screan_1 = new BorderPane();
         VBox topContainer = new VBox();
@@ -368,7 +396,9 @@ public class Main extends Application {
             for(int i = 0; i<6; i++){
                 int j = 0;
                 positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
+                ranges[i].setLayoutX(five_one[rotationNum.get()][i][j]);
                 positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
+                ranges[i].setLayoutY(five_one[rotationNum.get()][i][j+j]);
             }
         });
 
@@ -378,6 +408,8 @@ public class Main extends Application {
                 int j = 0;
                 positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
                 positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
+                ranges[i].setLayoutX(five_one[rotationNum.get()][i][j]);
+                ranges[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
             }
 
         });
