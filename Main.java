@@ -11,7 +11,6 @@ import javafx.scene.input.MouseButton;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
 import javafx.scene.shape.Ellipse;
-import static java.lang.Math.*;
 
 
 public class Main extends Application {
@@ -139,7 +138,7 @@ public class Main extends Application {
 			{385,240}
 		};
 
-		int five_one_two [][] = {
+		int five_one_two [][] = { 
 			{400,50},
 			{50,125},
 			{30,75},
@@ -255,7 +254,7 @@ public class Main extends Application {
         });
 
         serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,server_icon);
-        court_1.getChildren().addAll(attackLine,player2,player3,player4,player5,player1,player6);
+        court_1.getChildren().addAll(attackLine,player2,player3,player4,player5,player6,player1);
 
         BorderPane screan_1 = new BorderPane();
         VBox topContainer = new VBox();
@@ -266,14 +265,15 @@ public class Main extends Application {
         screan_1.setBottom(court_1);
 
         /*::::Player Statistics View:::: */
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
 
         Button court_bar_2 = new Button("court");
         Button addplayers_bar_2 = new Button("add player");
         Button remove_bar_2 = new Button("Remove All");
+        Button override_bar_2 = new Button("Team Peers");
 
         ToolBar tool_bar_2 = new ToolBar();
-        tool_bar_2.getItems().addAll(court_bar_2, addplayers_bar_2, remove_bar_2);
+        tool_bar_2.getItems().addAll(court_bar_2, addplayers_bar_2, remove_bar_2,override_bar_2);
         
         Label player_info = new Label("Add Players to See Their Information");
 
@@ -295,7 +295,7 @@ public class Main extends Application {
         ToolBar tool_bar_3 = new ToolBar();
         tool_bar_3.getItems().addAll(save_player_bar_3, exit_bar_3);
 
-        Label get_position = new Label("Position (s,m,p,o):");
+        Label get_position = new Label("Position (s,m1,m2,p1,p2,o):");
         TextField input_position = new TextField();
         Label output_position = new Label("");
         Label get_name = new Label("Player Name (3 letters or less):");
@@ -422,7 +422,7 @@ public class Main extends Application {
                         default:
                     }
                 }
-
+                setRange(ranges,position,Double.parseDouble(platform_pass), Double.parseDouble(hand_pass));
                 updatePlayerInfo(player_info, player_names,player_position,player_platform_stat,player_hand_stat);
                 stage.setScene(player_stats_2);
                 p.clear();
@@ -462,12 +462,13 @@ public class Main extends Application {
 
         court_bar_2.setOnAction(event -> {
             stage.setScene(court_view_1);
+            rotationNum.rotate();
+            rotationNum.unrotate();
             for(int i = 0; i<6; i++){
                 positions[i].setLayoutX(five_one[rotationNum.get()][i][0] - (positions[i].getWidth()/2));
                 positions[i].setLayoutY(five_one[rotationNum.get()][i][1] - (positions[i].getHeight()/2));
             
             }
-
         });
         addplayers_bar_2.setOnAction(event -> {
             stage.setScene(add_player_3);
@@ -475,6 +476,30 @@ public class Main extends Application {
 
         exit_bar_3.setOnAction(event ->{
             stage.setScene(player_stats_2);
+        });
+
+        override_bar_2.setOnAction(event -> {
+            player_names.clear();
+            player_position.clear();
+            player_platform_stat.clear();
+            player_hand_stat.clear();
+            player_start_pos.clear();
+            String[] names = {"yu","nay","em","qio","kel","kar"};
+            String[] pos = {"s","p1","m1","o","p2","m2"};
+            double[] plat = {0,2.4,2.4,2.0,2.3,2.7};
+            int[] start = {1,2,3,4,5,6};
+            double[] hands = {0,3,2.1,1.5,2.0,2.5};
+
+            for(int i = 0; i<6; i++){
+                player_names.add(names[i]);
+                player_position.add(pos[i]);
+                player_platform_stat.add(plat[i]);
+                player_hand_stat.add(hands[i]);
+                player_start_pos.add(start[i]);
+                setRange(ranges,pos[i],plat[i], hands[i]);
+            }
+            updatePlayerInfo(player_info, player_names,player_position,player_platform_stat,player_hand_stat);
+
         });
 
         remove_bar_2.setOnAction(event ->{
@@ -514,5 +539,32 @@ public class Main extends Application {
         if(names.size() < 1){
             player_info.setText("Add a player to see their information");
         }
+    }
+    private void setRange(Ellipse[] rang,String pos,double ps, double hs){
+        int modifier = 60;
+                switch(pos){
+                    case "s":
+                        break;
+                    case "p1":
+                        rang[1].setRadiusX(modifier*ps);
+                        rang[1].setRadiusY(modifier*hs);
+                        break;
+                    case "m1":
+                        rang[2].setRadiusX(modifier*ps);
+                        rang[2].setRadiusY(modifier*hs);
+                        break;
+                    case "o":
+                        rang[3].setRadiusX(modifier*ps);
+                        rang[3].setRadiusY(modifier*hs);
+                        break;
+                    case "p2":
+                        rang[4].setRadiusX(modifier*ps);
+                        rang[4].setRadiusY(modifier*hs);
+                        break;
+                    case "m2":
+                        rang[5].setRadiusX(modifier*ps);
+                        rang[5].setRadiusY(modifier*hs);
+                        break;
+                    }
     }
 }

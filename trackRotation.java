@@ -20,4 +20,12 @@ public class trackRotation {
     public void setSetterPos(int pos){
         setterPos = pos;
     }
+    public void unrotate(){
+        if(setterPos>0){
+            setterPos--;
+        }
+        else{
+            setterPos = 6;
+        }
+    }
 }
