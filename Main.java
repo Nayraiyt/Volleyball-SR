@@ -11,6 +11,7 @@ import javafx.scene.input.MouseButton;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
 import javafx.scene.shape.Ellipse;
+import static java.lang.Math.*;
 
 
 public class Main extends Application {
@@ -78,7 +79,7 @@ public class Main extends Application {
         p1.setFitWidth(player_icon_size);
         p1.setPreserveRatio(true);
         StackPane player1 = new StackPane();
-        player1.getChildren().addAll(p1_range, p1);
+        player1.getChildren().addAll(p1);
 
         Image power_icon = new Image(getClass().getResource("/images/power_icon.PNG").toExternalForm());
         ImageView p2 = new ImageView(power_icon);
@@ -113,23 +114,76 @@ public class Main extends Application {
         StackPane player6 = new StackPane();
         player6.getChildren().addAll(p6_range, p6);
 
-        int starting [][] = {{385,285},{385,50},{210,50},{50,50},{50,285},{210,285}};
+        int starting [][] = {
+            {350,255},
+            {320,50},
+            {180,50},
+            {25,50},
+            {25,250},
+            {180,250}
+        };
         StackPane[]  positions = {player1,player2,player3,player4,player5,player6};
         for(int i = 0; i<6; i++){
             int j = 0;
             positions[i].setLayoutX(starting[i][j]);
-            ranges[i].setLayoutX(starting[i][j]);
             positions[i].setLayoutY(starting[i][j+1]);
-            ranges[i].setLayoutY(starting[i][j+1]);
         }
         attackLine.relocate(0,150);
         //five one rotations, justified to setter postion.
-        int five_one_one [][] = {{400,100},{385,50},{75,100},{40,240},{210,275},{385,240}};
-        int five_one_two [][] = {{400,50},{40,120},{10,75},{50,245},{210,270},{385,245}};
-        int five_one_three [][] = {{370,50},{25,125},{60,250},{230,275},{385,250},{405,100}};
-        int five_one_four [][] = {{0,0},{50,260},{230,275},{385,215},{45,125},{25,60}};
-        int five_one_five [][] = {{130,60},{210,275},{385,250},{395,135},{50,250},{20,35}};
-        int five_one_six [][] = {{210,50},{385,300},{400,175},{300,30},{65,235},{220,275}};
+        int five_one_one [][] = {
+			{400,100},
+			{375,50},
+			{160,100},
+			{50,230},
+			{210,275},
+			{385,240}
+		};
+
+		int five_one_two [][] = {
+			{400,50},
+			{50,125},
+			{30,75},
+			{50,245},
+			{210,270},
+			{385,245}
+		};
+
+		int five_one_three [][] = {
+			{370,50},
+			{25,125},
+			{60,250},
+			{230,275},
+			{385,250},
+			{405,100}
+		};
+
+		int five_one_four [][] = {
+			{20,30},
+			{60,125},
+			{230,275},
+			{385,215},
+			{50,260},
+			{40,65}
+		};
+
+		int five_one_five [][] = {
+			{130,60},
+			{210,275},
+			{385,250},
+			{395,135},
+			{50,250},
+			{20,35}
+		};
+
+		int five_one_six [][] = {
+			{210,50},
+			{385,300},
+			{400,175},
+			{300,40},
+			{65,235},
+			{220,275}
+		};
+
         int five_one[][][] = {five_one_one,five_one_six,five_one_five,
                              five_one_four,five_one_three,five_one_two};
         int setterPos = -1;
@@ -201,7 +255,7 @@ public class Main extends Application {
         });
 
         serve_space_1.getChildren().addAll(serve_zone1_1,serve_zone2_1,serve_zone3_1,serve_zone4_1,serve_zone5_1,server_icon);
-        court_1.getChildren().addAll(attackLine,player2,player3,player4,player5,player6,player1);
+        court_1.getChildren().addAll(attackLine,player2,player3,player4,player5,player1,player6);
 
         BorderPane screan_1 = new BorderPane();
         VBox topContainer = new VBox();
@@ -265,7 +319,7 @@ public class Main extends Application {
             boolean position_invalid = true;
             String [] valid_pos = {"s","m1","m2","p1","p2","o"};
             for(int i = 0; i< 6; i++){
-                if(position == valid_pos[i]){
+                if(position.equals(valid_pos[i])){
                     position_invalid = false;
                     break;
                 }
@@ -349,16 +403,22 @@ public class Main extends Application {
                     switch(start){
                         case 1: 
                             rotationNum.setSetterPos(0);
+                            break;
                         case 2:
                             rotationNum.setSetterPos(5);
+                            break;
                         case 3:
                             rotationNum.setSetterPos(4);
+                            break;
                         case 4:
                             rotationNum.setSetterPos(3);
+                            break;
                         case 5:
                             rotationNum.setSetterPos(2);
+                            break;
                         case 6:
                             rotationNum.setSetterPos(1);
+                            break;
                         default:
                     }
                 }
@@ -394,22 +454,18 @@ public class Main extends Application {
         rotate_bar_1.setOnAction(event -> { 
             rotationNum.rotate();
             for(int i = 0; i<6; i++){
-                int j = 0;
-                positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
-                ranges[i].setLayoutX(five_one[rotationNum.get()][i][j]);
-                positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
-                ranges[i].setLayoutY(five_one[rotationNum.get()][i][j+j]);
+                positions[i].setLayoutX(five_one[rotationNum.get()][i][0] - (positions[i].getWidth()/2));
+                positions[i].setLayoutY(five_one[rotationNum.get()][i][1] - (positions[i].getHeight()/2));
+
             }
         });
 
         court_bar_2.setOnAction(event -> {
             stage.setScene(court_view_1);
             for(int i = 0; i<6; i++){
-                int j = 0;
-                positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
-                positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
-                ranges[i].setLayoutX(five_one[rotationNum.get()][i][j]);
-                ranges[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
+                positions[i].setLayoutX(five_one[rotationNum.get()][i][0] - (positions[i].getWidth()/2));
+                positions[i].setLayoutY(five_one[rotationNum.get()][i][1] - (positions[i].getHeight()/2));
+            
             }
 
         });
