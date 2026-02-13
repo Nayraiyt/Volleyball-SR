@@ -18,7 +18,7 @@ public class Main extends Application {
 
         stage.setTitle("Volleyball SR");
 
-        ArrayList<Integer> players_start_pos = new ArrayList<>();
+        ArrayList<Integer> player_start_pos = new ArrayList<>();
         ArrayList<String> player_names = new ArrayList<>();
         ArrayList<String> player_position = new ArrayList<>();
         ArrayList<Double> player_hand_stat = new ArrayList<>();
@@ -105,6 +105,7 @@ public class Main extends Application {
         int five_one[][][] = {five_one_one,five_one_six,five_one_five,
                              five_one_four,five_one_three,five_one_two};
         int setterPos = -1;
+
         trackRotation rotationNum = new trackRotation(setterPos);
         
         /* Serve Movement */
@@ -233,8 +234,16 @@ public class Main extends Application {
             Player p = new Player();
 
             String position = input_position.getText().trim();
-            if(position.length()>1 || position.isEmpty()){
-                output_position.setText("⚠ Reqired Field, s: setter, m:middle, p:power, o:opposite)");
+            boolean position_invalid = true;
+            String [] valid_pos = {"s","m1","m2","p1","p2","o"};
+            for(int i = 0; i< 6; i++){
+                if(position == valid_pos[i]){
+                    position_invalid = false;
+                    break;
+                }
+            }
+            if(position_invalid || position.isEmpty()){
+                output_position.setText("⚠ Reqired Field, s: setter, m1, m2: middle, p1, p2: power, o:opposite)");
             }
             else{
                 output_position.setText("");
@@ -280,8 +289,8 @@ public class Main extends Application {
 
             boolean occupied = false;
 
-            for(int i = 0; i< players_start_pos.size(); i++){
-                if(players_start_pos.get(i) == Integer.parseInt(start_pos)){
+            for(int i = 0; i< player_start_pos.size(); i++){
+                if(player_start_pos.get(i) == Integer.parseInt(start_pos)){
                     occupied = true;
                 }
             }
@@ -305,7 +314,26 @@ public class Main extends Application {
                 player_position.add(position);
                 player_platform_stat.add(Double.parseDouble(platform_pass));
                 player_hand_stat.add(Double.parseDouble(hand_pass));
-                players_start_pos.add(Integer.parseInt(start_pos));
+                player_start_pos.add(Integer.parseInt(start_pos));
+
+                if(position.equals("s")){
+                    int start = Integer.parseInt(start_pos);
+                    switch(start){
+                        case 1: 
+                            rotationNum.setSetterPos(0);
+                        case 2:
+                            rotationNum.setSetterPos(5);
+                        case 3:
+                            rotationNum.setSetterPos(4);
+                        case 4:
+                            rotationNum.setSetterPos(3);
+                        case 5:
+                            rotationNum.setSetterPos(2);
+                        case 6:
+                            rotationNum.setSetterPos(1);
+                        default:
+                    }
+                }
 
                 updatePlayerInfo(player_info, player_names,player_position,player_platform_stat,player_hand_stat);
                 stage.setScene(player_stats_2);
@@ -315,6 +343,7 @@ public class Main extends Application {
                 input_hand_pass.clear();
                 input_platform_pass.clear();
                 input_start_pos.clear();
+
             }
         });
         
@@ -337,14 +366,20 @@ public class Main extends Application {
         rotate_bar_1.setOnAction(event -> { 
             rotationNum.rotate();
             for(int i = 0; i<6; i++){
-            int j = 0;
-            positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
-            positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
-        }
+                int j = 0;
+                positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
+                positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
+            }
         });
 
         court_bar_2.setOnAction(event -> {
             stage.setScene(court_view_1);
+            for(int i = 0; i<6; i++){
+                int j = 0;
+                positions[i].setLayoutX(five_one[rotationNum.get()][i][j]);
+                positions[i].setLayoutY(five_one[rotationNum.get()][i][j+1]);
+            }
+
         });
         addplayers_bar_2.setOnAction(event -> {
             stage.setScene(add_player_3);
@@ -356,6 +391,11 @@ public class Main extends Application {
 
         remove_bar_2.setOnAction(event ->{
             players.clear();
+            player_names.clear();
+            player_position.clear();
+            player_platform_stat.clear();
+            player_hand_stat.clear();
+            player_start_pos.clear();
             updatePlayerInfo(player_info, player_names,player_position,player_platform_stat,player_hand_stat);
         });
 

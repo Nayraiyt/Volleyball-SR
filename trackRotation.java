@@ -16,4 +16,8 @@ public class trackRotation {
     public int get(){
         return setterPos;
     }
+
+    public void setSetterPos(int pos){
+        setterPos = pos;
+    }
 }
