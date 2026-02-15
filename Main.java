@@ -18,7 +18,6 @@ public class Main extends Application {
     public void start(Stage stage) {
 
         stage.setTitle("Volleyball SR");
-
         ArrayList<Integer> player_start_pos = new ArrayList<>();
         ArrayList<String> player_names = new ArrayList<>();
         ArrayList<String> player_position = new ArrayList<>();
@@ -27,7 +26,6 @@ public class Main extends Application {
 
         /*:::Court View Page::: */
         Color pastelBlue = Color.web("#ADD8E6");
-
 
         /* 
         Menu seams_menu_1 = new Menu("Seams");
@@ -127,6 +125,7 @@ public class Main extends Application {
             positions[i].setLayoutX(starting[i][j]);
             positions[i].setLayoutY(starting[i][j+1]);
         }
+
         attackLine.relocate(0,150);
         //five one rotations, justified to setter postion.
         int five_one_one [][] = {
@@ -447,7 +446,6 @@ public class Main extends Application {
         screan_3.setBottom(inputs);
 
         /* :::Buttons::: */
-
         players_bar_1.setOnAction(event -> {
             stage.setScene(player_stats_2);
         });
@@ -459,7 +457,6 @@ public class Main extends Application {
 
             }
         });
-
         court_bar_2.setOnAction(event -> {
             stage.setScene(court_view_1);
             rotationNum.rotate();
@@ -467,23 +464,21 @@ public class Main extends Application {
             for(int i = 0; i<6; i++){
                 positions[i].setLayoutX(five_one[rotationNum.get()][i][0] - (positions[i].getWidth()/2));
                 positions[i].setLayoutY(five_one[rotationNum.get()][i][1] - (positions[i].getHeight()/2));
-            
             }
         });
         addplayers_bar_2.setOnAction(event -> {
             stage.setScene(add_player_3);
         });
-
         exit_bar_3.setOnAction(event ->{
             stage.setScene(player_stats_2);
         });
-
         override_bar_2.setOnAction(event -> {
             player_names.clear();
             player_position.clear();
             player_platform_stat.clear();
             player_hand_stat.clear();
             player_start_pos.clear();
+            rotationNum.setSetterPos(0);
             String[] names = {"yu","nay","em","qio","kel","kar"};
             String[] pos = {"s","p1","m1","o","p2","m2"};
             double[] plat = {0,2.4,2.4,2.0,2.3,2.7};
