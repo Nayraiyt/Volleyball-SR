@@ -1,5 +1,8 @@
 package com.volleyballsr;
 
+/*This class keeps track of the players statistics while they are still under construction in the
+add player screan
+*/
 public class Player {
 
     private String name;
@@ -11,14 +14,26 @@ public class Player {
         this.hand_pass = -1;
         this.platform_pass = -1;
     }
-
-    public String getName() { return name; }
-    public String getPosition() { return position; }
-    public Double getHandPass() { return hand_pass; }
-    public Double getPlatformPass() { return platform_pass; }
-
-    public void setPosition(String position) { this.position = position; }
-    public void setName(String name) { this.name = name; }
+    //getters 
+    public String getName() { 
+        return name; 
+    }
+    public String getPosition() { 
+        return position; 
+    }
+    public Double getHandPass() { 
+        return hand_pass; 
+    }
+    public Double getPlatformPass() { 
+        return platform_pass; 
+    }
+    //setters
+    public void setPosition(String position) { 
+        this.position = position; 
+    }
+    public void setName(String name) { 
+        this.name = name; 
+    }
 
     public void setHand_pass(double hand_pass) {
         if (hand_pass <= 3) this.hand_pass = hand_pass;
@@ -28,6 +43,7 @@ public class Player {
         if (platform_pass <= 3) this.platform_pass = platform_pass;
     }
 
+    //clears the players information, and sets the passes to -1
     public void clear() {
         this.name = null;
         this.position = null;
@@ -35,6 +51,7 @@ public class Player {
         this.platform_pass = -1;
     }
 
+    //made a too string, unused
     @Override
     public String toString() {
         return "Player {" +
