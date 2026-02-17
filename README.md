@@ -9,5 +9,12 @@ My project takes in User stats to visually display potential issues in the serve
 It may be abit scuffed- but its functional :D
 Language used: Java
 <img width="702" height="1004" alt="Screenshot 2026-02-13 190141" src="https://github.com/user-attachments/assets/739c8878-625f-4a5a-ae9f-a44c59e66c93" />
-
 Itch.io download: https://nayraiyt.itch.io/volleyball-sr
+
+<h3>Features</h3>
+<ul> 
+  <li>Visual 5-1 Rotations</li>
+  <li>Customizable Player Stats</li>
+  <li>Serve Receive Insights</li>
+  <li>Moveable Server, with 2 serve types</li>
+</ul>
